@@ -7,6 +7,23 @@ from sklearn.ensemble import IsolationForest  # Replace with your chosen anomaly
 def parse_log_message(message):
     # Sample logic to extract features from log message (adapt based on your log format)
     features = {}
+    
+    # Define regular expressions for message and body patterns (modify as needed)
+    message_pattern = r"(?P<message>.*?):"  # Capture everything before colon (:)
+    body_pattern = r"(?P<body>.*)"  # Capture everything after colon (:)
+
+    # Search for message and body patterns
+    match = re.search(message_pattern + body_pattern, message)
+
+    # Extract features based on match results
+    if match:
+        features["message"] = match.group("message")
+        features["body"] = match.group("body")
+    else:
+        # Handle cases where message and body patterns are not found
+        features["message"] = message
+        features["body"] = ""  # Set body as empty string if not captured
+    
     split_message = message.split(" ", maxsplit=2)  # Split on space, keeping max 3 parts
 
     # Extract timestamp (assuming it's the first part)
