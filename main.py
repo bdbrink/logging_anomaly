@@ -32,7 +32,7 @@ def preprocess_data(data):
     text_features = pd.DataFrame(tfidf_vectorizer.fit_transform(features["message"]))
 
     # Combine features
-    preprocessed_data = pd.concat([features[numerical_columns], categorical_features, text_features], axis=1)
+    preprocessed_data = pd.concat([features, categorical_features, text_features], axis=1)
     return preprocessed_data
 
 # Load your log data
