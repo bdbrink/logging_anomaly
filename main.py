@@ -5,8 +5,18 @@ from sklearn.ensemble import IsolationForest  # Replace with your chosen anomaly
 
 # Define functions for data preprocessing (modify as needed)
 def parse_log_message(message):
-    # Extract relevant features from the log message (e.g., timestamp, level, message)
-    # ...
+    # Sample logic to extract features from log message (adapt based on your log format)
+    features = {}
+    split_message = message.split(" ", maxsplit=2)  # Split on space, keeping max 3 parts
+
+    # Extract timestamp (assuming it's the first part)
+    features["timestamp"] = split_message[0]
+
+    # Extract log level (assuming it's the second part)
+    features["log_level"] = split_message[1] if len(split_message) > 1 else "INFO"  # Default level
+
+    # Extract message content (assuming it's the rest)
+    features["message"] = " ".join(split_message[2:]) if len(split_message) > 2 else ""
     return features
 
 def preprocess_data(data):
