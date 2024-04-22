@@ -66,6 +66,31 @@ X_train, X_test = train_test_split(preprocessed_data, test_size=0.2, random_stat
 model = IsolationForest(contamination=0.01)  # Adjust contamination parameter as needed
 model.fit(X_train)
 
+def predict_anomaly(log_message):
+    global log_count_window
+
+    # Preprocess the new message
+    new_data = pd.DataFrame([parse_log_message(log_message)]).pipe(preprocess_data)
+    
+    # Feature anomaly score
+    feature_score = model.decision_function(new_data)[0]
+
+    # Update log count and reset if window expires
+    log_count_window += 1
+    if time.time() - window_start_time > window_size:
+        log_count_window = 0
+        window_start_time = time.time()
+
+    # Rate anomaly score (implement your chosen anomaly detection for log count)
+    # This is a placeholder, replace with your implementation
+    rate_score = detect_rate_anomaly(log_count_window)  
+
+    # Combine scores with weights (adjust weights as needed)
+    combined_score = 0.7 * feature_score + 0.3 * rate_score
+
+    # Check if combined score exceeds a threshold (define your threshold)
+    return combined_score > threshold
+
 # Function to predict anomalies on new data
 def predict_anomaly(log_message):
     # Preprocess the new message
