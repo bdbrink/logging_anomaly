@@ -91,14 +91,6 @@ def predict_anomaly(log_message):
     # Check if combined score exceeds a threshold (define your threshold)
     return combined_score > threshold
 
-# Function to predict anomalies on new data
-def predict_anomaly(log_message):
-    # Preprocess the new message
-    new_data = pd.DataFrame([parse_log_message(log_message)]).pipe(preprocess_data)
-    # Get anomaly score
-    score = model.decision_function(new_data)[0]
-    # Check if score exceeds a threshold (define your threshold)
-    return score > threshold
 
 new_log_message = "This is an unusual error message"
 if predict_anomaly(new_log_message):
