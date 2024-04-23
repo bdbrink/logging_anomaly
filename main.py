@@ -4,6 +4,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder, TfidfVectorizer
 from sklearn.ensemble import IsolationForest  # Replace with your chosen anomaly detector
 
+# Maintain a counter for logs processed in the current time window
+log_count_window = 0
+# Define the time window size (e.g., in seconds)
+window_size = 60  
+
 # Define functions for data preprocessing (modify as needed)
 def parse_log_message(message):
     # Sample logic to extract features from log message (adapt based on your log format)
